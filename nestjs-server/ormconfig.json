@@ -1,0 +1,21 @@
+{
+  "type": "postgres",
+  "host": "lallah.db.elephantsql.com",
+  "port": 5432,
+  "username": "lzgcawga",
+  "password": "TW28mSFWneuoyqkgBsGrlnjjdbI0bVlt",
+  "database": "lzgcawga",
+  "migrationsTableName": "migration",
+  "entities": [
+    "dist/**/*.js"
+  ],
+  "migrations": [
+    "dist/migration/**/*.js"
+  ],
+  "subscribers": [
+    "dist/subscriber/**/*.js"
+  ],
+  "cli": {
+    "migrationsDir": "src/migration"
+  }
+}

@@ -1,5 +1,5 @@
 export interface UpdateProductDto {
     readonly name: string;
-    readonly sku: string;
+    readonly price: number;
     readonly quentity: number;
 }

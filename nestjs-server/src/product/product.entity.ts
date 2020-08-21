@@ -6,17 +6,17 @@ export class ProductEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column({ type: 'nvarchar' })
+    @Column({ type: 'text' })
     name: string;
 
-    @Column({ type: 'decimal' })
+    @Column({ type: 'money' })
     price: number;
 
-    @Column({ type: 'int' })
+    @Column({ type: 'integer' })
     @Column()
     quantity: number;
 
-    @Column({ type: 'datetime' })
+    @Column({ type: 'date' })
     @Column()
     lastUpdate: Date;
 
