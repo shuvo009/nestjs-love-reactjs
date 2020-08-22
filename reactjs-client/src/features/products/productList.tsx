@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { TopNav } from "../../common/topNav";
-
-import { Row, Col, Button, Table, ButtonGroup } from 'react-bootstrap';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { Row, Col, Button, Table, ButtonGroup, Spinner } from 'react-bootstrap';
 import { connect } from "react-redux";
 import { getProductList, createProduct, updateProduct, deleteProduct } from "./productStore"
 import { IReducerState } from "../../helpers/rootStore";
@@ -25,11 +26,40 @@ export class ProductListComponent extends Component<IProductListProps> {
         this.props.getProductList();
     }
 
+    onDeleteProduct = async (productId: string) => {
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure are you want to delete?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: async () => {
+                        await this.props.deleteProduct(productId);
+                        this.props.getProductList();
+                    }
+                },
+                {
+                    label: 'No',
+                    onClick: () => { }
+                }
+            ]
+        });
+    }
+
     render() {
         return (
             <>
                 <TopNav></TopNav>
-                <NewProduct onSave={this.onCreateNewProduct}></NewProduct>
+
+                <Row className="mt-2 mr-1">
+                    <Col>
+                        {this.props.isBusy ? <Spinner animation="border" variant="danger" /> : null}
+                    </Col>
+                    <Col className="auto">
+                        <NewProduct onSave={this.onCreateNewProduct}></NewProduct>
+                    </Col>
+                </Row>
+
                 <Row className="mt-2">
                     <Col>
                         <Table striped bordered hover>
@@ -55,7 +85,7 @@ export class ProductListComponent extends Component<IProductListProps> {
                                             <td>
                                                 <ButtonGroup>
                                                     <UpdateProduct onSave={this.onUpdateProduct} product={product}></UpdateProduct>
-                                                    <Button variant="danger">Delete</Button>
+                                                    <Button variant="danger" onClick={() => { this.onDeleteProduct(product.id) }}>Delete</Button>
                                                 </ButtonGroup>
                                             </td>
                                         </tr>
