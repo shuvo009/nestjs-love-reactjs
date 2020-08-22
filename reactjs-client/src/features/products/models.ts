@@ -4,7 +4,6 @@ export interface IProductCreate {
 }
 
 export interface IProductUpdate extends IProductCreate {
-    id: string;
     quantity: number;
 }
 

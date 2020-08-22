@@ -66,6 +66,10 @@ export const createProduct = (productCreateModel: IProductCreate) => async (disp
 export const updateProduct = (productid: string, productUpdateModel: IProductUpdate) => async (dispatch: Dispatch) => {
     try {
         dispatch(slice.actions.changeBusyState({ data: true }));
+
+        productUpdateModel.price = +productUpdateModel.price;
+        productUpdateModel.quantity = +productUpdateModel.quantity;
+
         await HttpHelpers.put<any>(ApiConstant.product, productid, productUpdateModel);
         dispatch(slice.actions.changeBusyState({ data: false }));
     } catch (error) {

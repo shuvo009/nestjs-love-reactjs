@@ -7,6 +7,7 @@ import { getProductList, createProduct, updateProduct, deleteProduct } from "./p
 import { IReducerState } from "../../helpers/rootStore";
 import { IProductListProps } from "./props"
 import { NewProduct } from "./newProduct"
+import { UpdateProduct } from "./updateProduct"
 import { IProductCreate, IProductUpdate } from "./models";
 export class ProductListComponent extends Component<IProductListProps> {
 
@@ -16,6 +17,11 @@ export class ProductListComponent extends Component<IProductListProps> {
 
     onCreateNewProduct = async (productModel: IProductCreate) => {
         await this.props.createProduct(productModel);
+        this.props.getProductList();
+    }
+
+    onUpdateProduct = async (productId: string, productUpdateModel: IProductUpdate) => {
+        await this.props.updateProduct(productId, productUpdateModel);
         this.props.getProductList();
     }
 
@@ -48,7 +54,7 @@ export class ProductListComponent extends Component<IProductListProps> {
                                             <td>{product.lastUpdate}</td>
                                             <td>
                                                 <ButtonGroup>
-                                                    <Button variant="info">Edit</Button>
+                                                    <UpdateProduct onSave={this.onUpdateProduct} product={product}></UpdateProduct>
                                                     <Button variant="danger">Delete</Button>
                                                 </ButtonGroup>
                                             </td>

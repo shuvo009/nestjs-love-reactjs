@@ -26,7 +26,7 @@ export class ProductService {
 
     async updateProduct(productId: string, product: UpdateProductDto): Promise<void> {
         let toUpdate = await this.productRepository.findOne(productId);
-        toUpdate.quantity = product.quentity;
+        toUpdate.quantity = product.quantity;
         toUpdate.name = product.name;
         toUpdate.price = product.price;
         await this.productRepository.save(toUpdate);
