@@ -1,1 +1,1 @@
-# nestjs-love-reactjs
+# CRUD project using Nestjs, Reactjs and Postgresql 
