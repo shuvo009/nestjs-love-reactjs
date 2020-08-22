@@ -2,16 +2,28 @@ import React, { Component } from "react";
 import { TopNav } from "../../common/topNav";
 
 import { Row, Col, Button, Table, ButtonGroup } from 'react-bootstrap';
-export class ProfileSkillEdit extends Component {
+import { connect } from "react-redux";
+import { getProductList, createProduct, updateProduct, deleteProduct } from "./productStore"
+import { IReducerState } from "../../helpers/rootStore";
+import { IProductListProps } from "./props"
+import { NewProduct } from "./newProduct"
+import { IProductCreate, IProductUpdate } from "./models";
+export class ProductListComponent extends Component<IProductListProps> {
+
+    componentWillMount() {
+        this.props.getProductList();
+    }
+
+    onCreateNewProduct = async (productModel: IProductCreate) => {
+        await this.props.createProduct(productModel);
+        this.props.getProductList();
+    }
+
     render() {
         return (
             <>
                 <TopNav></TopNav>
-                <Row className="mt-2 mr-1">
-                    <Col>
-                        <Button className="float-right">Add new product</Button>
-                    </Col>
-                </Row>
+                <NewProduct onSave={this.onCreateNewProduct}></NewProduct>
                 <Row className="mt-2">
                     <Col>
                         <Table striped bordered hover>
@@ -26,19 +38,23 @@ export class ProfileSkillEdit extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@mdo</td>
-                                    <td>
-                                        <ButtonGroup>
-                                            <Button variant="info">Edit</Button>
-                                            <Button variant="danger">Delete</Button>
-                                        </ButtonGroup>
-                                    </td>
-                                </tr>
+                                {this.props.products.map((product, i) => {
+                                    return (
+                                        <tr key={i}>
+                                            <td>{i + 1}</td>
+                                            <td>{product.name}</td>
+                                            <td>{product.price}</td>
+                                            <td>{product.quantity}</td>
+                                            <td>{product.lastUpdate}</td>
+                                            <td>
+                                                <ButtonGroup>
+                                                    <Button variant="info">Edit</Button>
+                                                    <Button variant="danger">Delete</Button>
+                                                </ButtonGroup>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
                         </Table>
                     </Col>
@@ -47,3 +63,24 @@ export class ProfileSkillEdit extends Component {
         )
     }
 }
+
+
+const mapStateToProps = (state: IReducerState) => {
+    return {
+        ...state.productStore
+    };
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        getProductList: () => dispatch(getProductList()),
+        createProduct: (productModel: IProductCreate) => dispatch(createProduct(productModel)),
+        updateProduct: (productId: string, productModel: IProductUpdate) => dispatch(updateProduct(productId, productModel)),
+        deleteProduct: (productId: string) => dispatch(deleteProduct(productId))
+    }
+}
+
+export const ProductList = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ProductListComponent);

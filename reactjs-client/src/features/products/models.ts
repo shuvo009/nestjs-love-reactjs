@@ -15,3 +15,9 @@ export interface IProduct {
     quantity: number;
     lastUpdate: Date;
 }
+
+export interface IProductStoreState {
+    products: IProduct[];
+    isBusy: boolean;
+    errorMessage: string;
+}

@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Dispatch } from 'redux';
-import { IProduct, IProductCreate, IProductUpdate } from "./models";
+import { IProduct, IProductCreate, IProductUpdate, IProductStoreState } from "./models";
 import { HttpHelpers, ApiConstant } from '../../helpers';
 
-export const defaultCreateState: IProductCreate = {
-    name: '',
-    price: 0
+export const defaultCreateState: IProductStoreState = {
+    errorMessage: '',
+    isBusy: false,
+    products: []
 }
 
 const slice = createSlice({
@@ -31,10 +32,9 @@ const slice = createSlice({
         onGetProductList: (state, action) => {
             return {
                 ...state,
-                ...action.payload,
-                lastPullTime: new Date().getTime(),
                 errorMessage: '',
-                isBusy: false
+                isBusy: false,
+                products: action.payload.data
             }
         }
     },
