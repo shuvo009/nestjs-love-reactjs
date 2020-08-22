@@ -1,4 +1,4 @@
-# CRUD project using Nestjs, Reactjs and Postgresql 
+# CRUD application using Nestjs, Reactjs and Postgresql 
 This project is very base CRUD project using Nestjs, Reactjs, Postgresql for learning purpose only.
 
 ## Requirements
